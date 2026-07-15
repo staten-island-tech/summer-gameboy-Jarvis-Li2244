@@ -1,0 +1,24 @@
+SUMMARY:
+	ROM0: 127 bytes used / 16257 free
+
+ROM0 bank #0:
+	SECTION: $0000-$0024 ($0025 bytes) ["test"]
+	         $0000 = test1
+	         $0002 = test1.loop
+	         $0009 = multiply
+	         $0010 = gcf
+	         $0015 = count_up
+	         $0019 = count_up.loop
+	         $001d = Multiply_Function
+	         $0020 = Multiply_Function.loop
+	SECTION: $0025-$002c ($0008 bytes) ["main"]
+	         $0025 = main
+	         $0028 = main.loop
+	SECTION: $002d-$002e ($0002 bytes) ["sample"]
+	         $002d = InitSample
+	         $002e = UpdateSample
+	EMPTY: $002f-$00ff ($00d1 bytes)
+	SECTION: $0100-$014f ($0050 bytes) ["header"]
+	         $0100 = entrypoint
+	EMPTY: $0150-$3fff ($3eb0 bytes)
+	TOTAL EMPTY: $3f81 bytes

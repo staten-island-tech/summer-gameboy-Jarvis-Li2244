@@ -1,0 +1,16 @@
+if !def(UTILS_RGBINC)
+def UTILS_RGBINC equ 1
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+include "hardware.rgbinc"
+include "hardware_compat.rgbinc"
+
+; load 16-bit register \2 into 16-bit register \1
+
+macro ld_r1_r2
+  ld high(\1), high(\2)
+  ld low(\1), low(\2)
+endm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+endc

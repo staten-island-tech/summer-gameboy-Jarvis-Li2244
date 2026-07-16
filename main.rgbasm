@@ -2,14 +2,31 @@ include "hardware.rgbinc"
 include "hardware_compat.rgbinc"
 include "utils.rgbinc"
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 section "header", rom0[$0100]
 entrypoint:
   di
-  jp test
+  jp main
   ds ($0150 - @), 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+macro DisableLCD
+    ; wait for the vblank
+    .wait_vblank\@
+        ld a, [rLY]
+        cp a, SCRN_Y
+        jr nz, .wait_vblank\@
+
+    ; turn the LCD off
+    xor a
+    ld [rLCDC], a
+endm
 
 section "main", rom0
 main:
+  DisableLCD
   call InitSample
   .loop
     call UpdateSample
@@ -17,25 +34,26 @@ main:
 
 section "test", rom0
 test:
+  ld b, 10
+  ld c, 5
+  ld d, 2
   call Calculator  
 
 random:
   ld b, 10
+  ld hl, $C000
   .loop
     sla b
-    ld c, b
-    ld_r1_r2 hl, bc
-    jr .loop
+    ld [hl], b
+    ld c, [hl]
+    ld_r1_r2 de, bc
+    jr nz, .loop
+  jp loop
 
 multiply:
   ld a, 1
   ld c, 5
   call Multiply_Function
-
-gcf:
-  ld a, 10
-  ld b, 6
-  and b
 
 count_up:
   ld a, 0
@@ -62,7 +80,8 @@ Multiply_Function:
     jr nz, .loop
   ret
 
-
+loop:
+  jr loop
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
